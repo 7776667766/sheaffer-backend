@@ -8,6 +8,7 @@ const { secret } = require("../config/secret");
 // register user
 // sign up
 exports.signup = async (req, res,next) => {
+console.log("req body for registefr",req.body.email)
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
@@ -58,6 +59,7 @@ exports.signup = async (req, res,next) => {
  * 9. send user and token
  */
 module.exports.login = async (req, res,next) => {
+  console.log("req",req.body)
   try {
     const { email, password } = req.body;
 

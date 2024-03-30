@@ -11,6 +11,7 @@ const { secret } = require("../config/secret");
 
 // register
 const registerAdmin = async (req, res,next) => {
+  console.log(req.body)
   try {
     const isAdded = await Admin.findOne({ email: req.body.email });
     if (isAdded) {
@@ -41,7 +42,7 @@ const registerAdmin = async (req, res,next) => {
 };
 // login admin
 const loginAdmin = async (req, res,next) => {
-  // console.log(req.body)
+  console.log(req.body)
   try {
     const admin = await Admin.findOne({ email: req.body.email });
     // console.log(admin)
