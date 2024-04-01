@@ -5,7 +5,10 @@ const Product = require("../model/Products");
 // create product service
 exports.createProductService = async (data) => {
   const product = await Product.create(data);
+  console.log('product f',product)
+
   const { _id: productId, brand, category } = product;
+  console.log('product s  ',product)
   //update Brand
   await Brand.updateOne(
     { _id: brand.id },

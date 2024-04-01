@@ -4,15 +4,15 @@ const { ObjectId } = mongoose.Schema.Types;
 const validator = require("validator");
 
 const productsSchema = mongoose.Schema({
-  sku: {
-    type: String,
-    required: false,
-  },
-  img:{
-    type: String,
-    required: true,
-    validate: [validator.isURL, "Please provide valid url(s)"]
-  },
+    sku: {
+      type: String,
+      required: false,
+    },
+    img:{
+        type: String,
+        // required: true,
+        // validate: [validator.isURL, "Please provide valid url(s)"]
+      },
   title: {
     type: String,
     required: [true, "Please provide a name for this product."],
@@ -44,8 +44,8 @@ const productsSchema = mongoose.Schema({
     },
     img:{
       type: String,
-      required: false,
-      validate: [validator.isURL, "Please provide valid url(s)"]
+      // required: false,
+        // validate: [validator.isURL, "Please provide valid url(s)"]
     },
     sizes:[String]
   }],
@@ -76,24 +76,24 @@ const productsSchema = mongoose.Schema({
   brand: {
     name: {
       type: String,
-      required: true,
+      // required: true,
     },
-    id: {
-      type: ObjectId,
-      ref: "Brand",
-      required: true,
-    }
+    // id: {
+    //   type: ObjectId,
+    //   ref: "Brand",
+    //   required: true,
+    // }
   },
   category: {
     name: {
       type: String,
-      required: true,
+      // required: true,
     },
-    id: {
-      type: ObjectId,
-      ref: "Category",
-      required: true,
-    }
+    // id: {
+    //   type: ObjectId,
+    //   ref: "Category",
+    //   required: true,
+    // }
   },
   status: {
     type: String,

@@ -2,9 +2,12 @@ const express = require('express');
 const router = express.Router();
 // internal
 const productController = require('../controller/product.controller');
+const upload = require("../middleware/multerConfig");
+// const upload = multer({ dest: 'uploads/' }); // Adjust destination folder as needed
 
 // add a product
-router.post('/add', productController.addProduct);
+router.post('/add', upload("product").single('img'),
+    productController.addProduct);
 // add all product
 router.post('/add-all', productController.addAllProducts);
 // get all products

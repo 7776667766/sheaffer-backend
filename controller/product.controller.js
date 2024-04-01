@@ -5,7 +5,7 @@ const Product = require("../model/Products");
 
 // add product
 exports.addProduct = async (req, res,next) => {
-  console.log('product--->',req.body);
+  console.log('products data--->',req.body);
   try {
     const firstItem = {
       color: {
@@ -14,7 +14,7 @@ exports.addProduct = async (req, res,next) => {
       },
       img: req.body.img,
     };
-    const imageURLs = [firstItem, ...req.body.imageURLs];
+    const imageURLs = [firstItem, ...(req.body.imageURLs || [])];
     const result = await productServices.createProductService({
       ...req.body,
       imageURLs: imageURLs,
