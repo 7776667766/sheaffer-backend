@@ -1,20 +1,14 @@
     const multer = require("multer");
-    const storage = (path) => {
-        console.log("path4", path);
-        return multer.diskStorage({
-            destination: (req, file, cb) => {
-                console.log("Destination path:", path);
-                console.log("Uploaded file:", file);
-                cb(null, `uploads/${path}`);
-            },
-            filename: (req, file, cb) => {
-                const sanitizedFileName = file.originalname.replace(/\s+/g, "_");
-                const fullFileName = `${Date.now()}-${sanitizedFileName}`;
-                cb(null, fullFileName);
-            },
-        });
-    };
-    const upload = (path) => {
-        return multer({ storage: storage(path) });
-    };
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+          cb(null, 'uploads/'); // Set the destination folder for uploaded files
+        },
+        filename: function (req, file, cb) {
+          cb(null, file.originalname); // Use the original filename for uploaded files
+        }
+      });
+      
+      const upload = multer({ storage: storage });
+      
+
     module.exports = upload;

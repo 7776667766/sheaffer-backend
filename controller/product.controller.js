@@ -6,15 +6,27 @@ const Product = require("../model/Products");
 // add product
 exports.addProduct = async (req, res,next) => {
   console.log('products data--->',req.body);
+  
   try {
+    if (!req.files || !req.files.img || !req.files.shade) {
+      return res.status(400).json({ message: 'Missing image files.' });
+    }
+
     const firstItem = {
       color: {
         name:'',
         clrCode:''
       },
-      img: req.body.img,
+      img: req.files.shade.path,
     };
-    const imageURLs = [firstItem, ...(req.body.imageURLs || [])];
+
+    const imageURLs = {
+      ...firstItem,
+      img: req.files.img[0].path || null, 
+    };
+    console.log("34",imageURLs)
+
+
     const result = await productServices.createProductService({
       ...req.body,
       imageURLs: imageURLs,

@@ -11,6 +11,14 @@ const MONGO_URI = secret.db_url;
 const connectDB = async () => {
   try { 
     await mongoose.connect(MONGO_URI);
+    // Assuming you have a Mongoose connection setup
+// mongoose.connect(MONGO_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   serverSelectionTimeoutMS: 10000, // Increase server selection timeout (default is 30000 ms)
+//   socketTimeoutMS: 45000, // Increase socket timeout (default is 45000 ms)
+// });
+
     console.log('mongodb connection success!');
   } catch (err) {
     console.log('mongodb connection failed!', err.message);

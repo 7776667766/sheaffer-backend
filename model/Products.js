@@ -8,11 +8,6 @@ const productsSchema = mongoose.Schema({
       type: String,
       required: false,
     },
-    img:{
-        type: String,
-        // required: true,
-        // validate: [validator.isURL, "Please provide valid url(s)"]
-      },
   title: {
     type: String,
     required: [true, "Please provide a name for this product."],
@@ -42,12 +37,6 @@ const productsSchema = mongoose.Schema({
         trim: true,
       }
     },
-    img:{
-      type: String,
-      // required: false,
-        // validate: [validator.isURL, "Please provide valid url(s)"]
-    },
-    sizes:[String]
   }],
   parent:{
     type:String,
