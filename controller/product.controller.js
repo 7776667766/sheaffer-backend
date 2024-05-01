@@ -1,30 +1,47 @@
 const Brand = require("../model/Brand");
 const productServices = require("../services/product.service");
 const Product = require("../model/Products");
-
+const fs = require('fs');
 
 // add product
-exports.addProduct = async (req, res,next) => {
-  console.log('products data--->',req.body);
-  
+exports.addProduct = async (req, res, next) => {
+  console.log('images--->', req.files);
+ 
+  const { shade } = req.body; 
+  req.shadeImages = []; 
+
+  // Decode and save each base64 image
+  shade.forEach((base64Img, index) => {
+    const matches = base64Img.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+    const imageBuffer = Buffer.from(matches[2], 'base64');
+    const filename = `shade-${index}-${Date.now()}.png`; 
+    
+    const imagePath = `uploads/${filename}`;
+
+    fs.writeFileSync(imagePath, imageBuffer); 
+    
+    req.shadeImages.push(imagePath); 
+  });
+
+  console.log('req.shadeImages ', req.shadeImages);
+
   try {
-    if (!req.files || !req.files.img || !req.files.shade) {
-      return res.status(400).json({ message: 'Missing image files.' });
-    }
+    
 
     const firstItem = {
       color: {
-        name:'',
-        clrCode:''
+        name: '',
+        clrCode: ''
       },
-      img: req.files.shade.path,
+      shade: req?.shadeImages,
     };
+    console.log("FIRST ITME".firstItem)
 
     const imageURLs = {
       ...firstItem,
-      img: req.files.img[0].path || null, 
+      img: req?.files?.img[0].path || null,
     };
-    console.log("34",imageURLs)
+    // console.log("34", imageURLs)
 
 
     const result = await productServices.createProductService({
@@ -32,10 +49,10 @@ exports.addProduct = async (req, res,next) => {
       imageURLs: imageURLs,
     });
 
-    console.log('product-result',result)
- 
+    console.log('product-result', result)
+
     res.status(200).json({
-      success:true,
+      success: true,
       status: "success",
       message: "Product created successfully!",
       data: result,
@@ -48,11 +65,11 @@ exports.addProduct = async (req, res,next) => {
 
 
 // add all product
-module.exports.addAllProducts = async (req,res,next) => {
+module.exports.addAllProducts = async (req, res, next) => {
   try {
     const result = await productServices.addAllProductService(req.body);
     res.json({
-      message:'Products added successfully',
+      message: 'Products added successfully',
       result,
     })
   } catch (error) {
@@ -61,12 +78,12 @@ module.exports.addAllProducts = async (req,res,next) => {
 }
 
 // get all products
-exports.getAllProducts = async (req,res,next) => {
+exports.getAllProducts = async (req, res, next) => {
   try {
     const result = await productServices.getAllProductsService();
     res.status(200).json({
-      success:true,
-      data:result,
+      success: true,
+      data: result,
     })
   } catch (error) {
     next(error)
@@ -74,12 +91,12 @@ exports.getAllProducts = async (req,res,next) => {
 }
 
 // get all products by type
-module.exports.getProductsByType = async (req,res,next) => {
+module.exports.getProductsByType = async (req, res, next) => {
   try {
     const result = await productServices.getProductTypeService(req);
     res.status(200).json({
-      success:true, 
-      data:result,
+      success: true,
+      data: result,
     })
   } catch (error) {
     console.log(error)
@@ -88,12 +105,12 @@ module.exports.getProductsByType = async (req,res,next) => {
 }
 
 // get offer product controller
-module.exports.getOfferTimerProducts = async (req,res,next) => {
+module.exports.getOfferTimerProducts = async (req, res, next) => {
   try {
     const result = await productServices.getOfferTimerProductService(req.query.type);
     res.status(200).json({
-      success:true, 
-      data:result,
+      success: true,
+      data: result,
     })
   } catch (error) {
     next(error)
@@ -101,12 +118,12 @@ module.exports.getOfferTimerProducts = async (req,res,next) => {
 }
 
 // get Popular Product By Type
-module.exports.getPopularProductByType = async (req,res,next) => {
+module.exports.getPopularProductByType = async (req, res, next) => {
   try {
     const result = await productServices.getPopularProductServiceByType(req.params.type);
     res.status(200).json({
-      success:true, 
-      data:result,
+      success: true,
+      data: result,
     })
   } catch (error) {
     next(error)
@@ -114,12 +131,12 @@ module.exports.getPopularProductByType = async (req,res,next) => {
 }
 
 // get top rated Products
-module.exports.getTopRatedProducts = async (req,res,next) => {
+module.exports.getTopRatedProducts = async (req, res, next) => {
   try {
     const result = await productServices.getTopRatedProductService();
     res.status(200).json({
-      success:true, 
-      data:result,
+      success: true,
+      data: result,
     })
   } catch (error) {
     next(error)
@@ -127,7 +144,7 @@ module.exports.getTopRatedProducts = async (req,res,next) => {
 }
 
 // getSingleProduct
-exports.getSingleProduct = async (req,res,next) => {
+exports.getSingleProduct = async (req, res, next) => {
   try {
     const product = await productServices.getProductService(req.params.id)
     res.json(product)
@@ -137,12 +154,12 @@ exports.getSingleProduct = async (req,res,next) => {
 }
 
 // get Related Product
-exports.getRelatedProducts = async (req,res,next) => {
+exports.getRelatedProducts = async (req, res, next) => {
   try {
     const products = await productServices.getRelatedProductService(req.params.id)
     res.status(200).json({
-      success:true, 
-      data:products,
+      success: true,
+      data: products,
     })
   } catch (error) {
     next(error)
@@ -150,9 +167,9 @@ exports.getRelatedProducts = async (req,res,next) => {
 }
 
 // update product
-exports.updateProduct = async (req, res,next) => {
+exports.updateProduct = async (req, res, next) => {
   try {
-    const product = await productServices.updateProductService(req.params.id,req.body)
+    const product = await productServices.updateProductService(req.params.id, req.body)
     res.send({ data: product, message: "Product updated successfully!" });
   } catch (error) {
     next(error)
@@ -160,12 +177,12 @@ exports.updateProduct = async (req, res,next) => {
 };
 
 // update product
-exports.reviewProducts = async (req, res,next) => {
+exports.reviewProducts = async (req, res, next) => {
   try {
     const products = await productServices.getReviewsProducts()
     res.status(200).json({
-      success:true, 
-      data:products,
+      success: true,
+      data: products,
     })
   } catch (error) {
     next(error)
@@ -173,12 +190,12 @@ exports.reviewProducts = async (req, res,next) => {
 };
 
 // update product
-exports.stockOutProducts = async (req, res,next) => {
+exports.stockOutProducts = async (req, res, next) => {
   try {
     const products = await productServices.getStockOutProducts();
     res.status(200).json({
-      success:true, 
-      data:products,
+      success: true,
+      data: products,
     })
   } catch (error) {
     next(error)
@@ -186,11 +203,11 @@ exports.stockOutProducts = async (req, res,next) => {
 };
 
 // update product
-exports.deleteProduct = async (req, res,next) => {
+exports.deleteProduct = async (req, res, next) => {
   try {
     await productServices.deleteProduct(req.params.id);
     res.status(200).json({
-      message:'Product delete successfully'
+      message: 'Product delete successfully'
     })
   } catch (error) {
     next(error)

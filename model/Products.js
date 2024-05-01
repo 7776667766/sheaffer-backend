@@ -4,10 +4,10 @@ const { ObjectId } = mongoose.Schema.Types;
 const validator = require("validator");
 
 const productsSchema = mongoose.Schema({
-    sku: {
-      type: String,
-      required: false,
-    },
+  sku: {
+    type: String,
+    required: false,
+  },
   title: {
     type: String,
     required: [true, "Please provide a name for this product."],
@@ -25,28 +25,33 @@ const productsSchema = mongoose.Schema({
     required: true,
   },
   imageURLs: [{
-    color:{
-      name:{
+    color: {
+      name: {
         type: String,
         required: false,
         trim: true,
       },
-      clrCode:{
+      clrCode: {
         type: String,
         required: false,
         trim: true,
       }
     },
+    shade: [{
+      type: String,
+      required: false,
+      trim: true,
+    }]
   }],
-  parent:{
-    type:String,
-    required:true,
-    trim:true,
-   },
-  children:{
-    type:String,
-    required:true,
-    trim:true,
+  parent: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  children: {
+    type: String,
+    required: true,
+    trim: true,
   },
   price: {
     type: Number,
@@ -93,9 +98,9 @@ const productsSchema = mongoose.Schema({
     },
     default: "in-stock",
   },
-  reviews: [{type:ObjectId, ref: 'Reviews' }],
-  productType:{
-    type:String,
+  reviews: [{ type: ObjectId, ref: 'Reviews' }],
+  productType: {
+    type: String,
     required: true,
     lowercase: true,
   },
@@ -110,12 +115,12 @@ const productsSchema = mongoose.Schema({
   additionalInformation: [{}],
   tags: [String],
   sizes: [String],
-  offerDate:{
-    startDate:{
-      type:Date
+  offerDate: {
+    startDate: {
+      type: Date
     },
-    endDate:{
-      type:Date
+    endDate: {
+      type: Date
     },
   },
   featured: {

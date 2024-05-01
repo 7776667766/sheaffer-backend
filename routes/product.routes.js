@@ -5,8 +5,8 @@ const productController = require('../controller/product.controller');
 const upload = require("../middleware/multerConfig");
 
 
-router.post('/add', upload.fields([{ name: 'img', maxCount: 1 }, { name: 'shade', maxCount: 4 }]), productController.addProduct
-);
+router.post('/add', upload.single('img'), productController.addProduct);
+
 
 // add all product
 router.post('/add-all', productController.addAllProducts);
