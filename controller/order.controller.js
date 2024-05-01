@@ -41,7 +41,7 @@ exports.addOrder = async (req, res, next) => {
 // get Orders
 exports.getOrders = async (req, res, next) => {
   try {
-    const orderItems = await Order.find({}).populate('user');
+    const orderItems = await Order.find({});
     res.status(200).json({
       success: true,
       data: orderItems,
@@ -55,7 +55,7 @@ exports.getOrders = async (req, res, next) => {
 // get Orders
 exports.getSingleOrder = async (req, res, next) => {
   try {
-    const orderItem = await Order.findById(req.params.id).populate('user');
+    const orderItem = await Order.findById(req.params.id);
     res.status(200).json(orderItem);
   }
   catch (error) {

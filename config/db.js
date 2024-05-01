@@ -6,7 +6,7 @@ mongoose.set('strictQuery', false);
 // local url 
 const DB_URL = 'mongodb://0.0.0.0:27017/shofy'; 
 // mongodb url
-const MONGO_URI = secret.db_url;
+const MONGO_URI = "mongodb+srv://sheaffer:1234@cluster0.ewcncbv.mongodb.net/";
 
 const connectDB = async () => {
   try { 

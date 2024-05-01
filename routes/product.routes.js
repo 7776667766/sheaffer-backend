@@ -13,8 +13,13 @@ router.post('/add-all', productController.addAllProducts);
 // get all products
 router.get('/all', productController.getAllProducts);
 // get offer timer product
+
+
+
 router.get('/offer', productController.getOfferTimerProducts);
 // top rated products
+
+
 router.get('/top-rated', productController.getTopRatedProducts);
 // reviews products
 router.get('/review-product', productController.reviewProducts);
