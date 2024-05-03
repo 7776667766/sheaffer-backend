@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const upload = require("../middleware/uploadImage");
+
 // internal
 const productController = require('../controller/product.controller');
-const upload = require("../middleware/multerConfig");
+// const upload = require("../middleware/uploadImage");
 
 
-router.post('/add', upload.single('img'), productController.addProduct);
+router.post('/add',  upload("/product").single("img"),
+ productController.addProduct);
 
 
 // add all product

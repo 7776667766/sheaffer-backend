@@ -2,51 +2,64 @@ const Brand = require("../model/Brand");
 const productServices = require("../services/product.service");
 const Product = require("../model/Products");
 const fs = require('fs');
+require("dotenv").config();
+
+const imgFullPath = (imgPath) => {
+  if (!imgPath || imgPath === null) return "";
+  return "http://localhost:7000/" + imgPath;
+};
+
 
 // add product
 exports.addProduct = async (req, res, next) => {
-  console.log('images--->', req.files);
- 
-  const { shade } = req.body; 
-  req.shadeImages = []; 
+  console.log('images--->', req.file.path);
 
-  // Decode and save each base64 image
+  const { shade } = req.body;
+  req.shadeImages = [];
+
   shade.forEach((base64Img, index) => {
     const matches = base64Img.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
     const imageBuffer = Buffer.from(matches[2], 'base64');
-    const filename = `shade-${index}-${Date.now()}.png`; 
-    
+    const filename = `shade-${index}-${Date.now()}.png`;
+
     const imagePath = `uploads/${filename}`;
 
-    fs.writeFileSync(imagePath, imageBuffer); 
-    
-    req.shadeImages.push(imagePath); 
+    fs.writeFileSync(imagePath, imageBuffer);
+
+    req.shadeImages.push(imagePath);
   });
 
   console.log('req.shadeImages ', req.shadeImages);
 
   try {
-    
+
+    const shadeImages = req.shadeImages || []; 
+
+const fullShadeUrls = shadeImages.map(shadeImagePath => imgFullPath(shadeImagePath));
+
 
     const firstItem = {
       color: {
         name: '',
         clrCode: ''
       },
-      shade: req?.shadeImages,
+      shade:  fullShadeUrls,
     };
     console.log("FIRST ITME".firstItem)
 
     const imageURLs = {
       ...firstItem,
-      img: req?.files?.img[0].path || null,
+      img: imgFullPath(req.file.path) ,
     };
-    // console.log("34", imageURLs)
 
+    console.log("34", imageURLs)
 
+    console.log("imageUrls 46",imageURLs)
     const result = await productServices.createProductService({
       ...req.body,
       imageURLs: imageURLs,
+      img: imgFullPath(req.file.path) 
+
     });
 
     console.log('product-result', result)

@@ -15,6 +15,11 @@ const productsSchema = mongoose.Schema({
     minLength: [3, "Name must be at least 3 characters."],
     maxLength: [200, "Name is too large"],
   },
+  img: {
+    type: String,
+    required: false,
+    trim: true,
+  },
   slug: {
     type: String,
     trim: true,
