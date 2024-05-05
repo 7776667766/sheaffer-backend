@@ -15,7 +15,9 @@ exports.addProduct = async (req, res, next) => {
   console.log('images--->', req.file.path);
 
   const { shade } = req.body;
-  req.shadeImages = [];
+  req.shadeImage = [];
+
+
 
   shade.forEach((base64Img, index) => {
     const matches = base64Img.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
@@ -26,39 +28,52 @@ exports.addProduct = async (req, res, next) => {
 
     fs.writeFileSync(imagePath, imageBuffer);
 
-    req.shadeImages.push(imagePath);
+    req.shadeImage.push(imagePath);
   });
 
   console.log('req.shadeImages ', req.shadeImages);
 
   try {
 
-    const shadeImages = req.shadeImages || []; 
+    const shadeImages = req.body.imgUrls || [];
+    console.log("shadeImages", shadeImages)
+    const fullShadeUrls = req.shadeImage.map(shadeImagePath => imgFullPath(shadeImagePath));
 
-const fullShadeUrls = shadeImages.map(shadeImagePath => imgFullPath(shadeImagePath));
-
-
-    const firstItem = {
+    // const firstItem = shadeImages.map(shadeImagePath => (
+    //   console.log("shadeImagePath",shadeImagePath),
+    //   {
+    //   color: {
+    //     name: shadeImagePath.color.name,
+    //     clrCode: shadeImagePath.color.clrCode
+    //   },
+    //   sh
+    
+    
+    const imageURLs = Object.values(shadeImages).map((item, index) => ({
       color: {
-        name: '',
-        clrCode: ''
+        name: item.color.name,
+        clrCode: item.color.clrCode
       },
-      shade:  fullShadeUrls,
-    };
-    console.log("FIRST ITME".firstItem)
+      shade: fullShadeUrls[index]
+    }));
 
-    const imageURLs = {
-      ...firstItem,
-      img: imgFullPath(req.file.path) ,
-    };
+    // }));
 
-    console.log("34", imageURLs)
+    // const firstItem = {
+    //   color: {
+    //     name: req.body.imgUrls.color.name,
+    //     clrCode: req.body.imgUrls.color.clrCode,
+    //   },
+    //   shade:  [imgFullPath(imagePath)],
+    // };
 
-    console.log("imageUrls 46",imageURLs)
+    
+
+    console.log("imageUrls 46", imageURLs)
     const result = await productServices.createProductService({
       ...req.body,
       imageURLs: imageURLs,
-      img: imgFullPath(req.file.path) 
+      img: imgFullPath(req.file.path)
 
     });
 
