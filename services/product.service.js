@@ -87,12 +87,13 @@ exports.getOfferTimerProductService = async (query) => {
 
 // get popular product service by type
 exports.getPopularProductServiceByType = async (type) => {
-  const products = await Product.find({ productType: type })
+  const products = await Product.find({ productType: type, productType: 'topsellers=true' })
     .sort({ "reviews.length": -1 })
     .limit(8)
     .populate("reviews");
   return products;
 };
+
 
 exports.getTopRatedProductService = async () => {
   const products = await Product.find({

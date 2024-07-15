@@ -147,6 +147,7 @@ module.exports.getOfferTimerProducts = async (req, res, next) => {
 
 // get Popular Product By Type
 module.exports.getPopularProductByType = async (req, res, next) => {
+  console.log("150",req.params.type)
   try {
     const result = await productServices.getPopularProductServiceByType(req.params.type);
     res.status(200).json({
