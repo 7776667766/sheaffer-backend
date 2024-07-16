@@ -9,45 +9,26 @@ const imgFullPath = (imgPath) => {
   return "http://localhost:7000/" + imgPath;
 };
 
-
 // add product
 exports.addProduct = async (req, res, next) => {
-  console.log('images--->', req.file.path);
 
   const { shade } = req.body;
   req.shadeImage = [];
-
-
 
   shade.forEach((base64Img, index) => {
     const matches = base64Img.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
     const imageBuffer = Buffer.from(matches[2], 'base64');
     const filename = `shade-${index}-${Date.now()}.png`;
-
     const imagePath = `uploads/${filename}`;
-
     fs.writeFileSync(imagePath, imageBuffer);
-
     req.shadeImage.push(imagePath);
   });
-
-  console.log('req.shadeImages ', req.shadeImages);
 
   try {
 
     const shadeImages = req.body.imgUrls || [];
-    console.log("shadeImages", shadeImages)
-    const fullShadeUrls = req.shadeImage.map(shadeImagePath => imgFullPath(shadeImagePath));
 
-    // const firstItem = shadeImages.map(shadeImagePath => (
-    //   console.log("shadeImagePath",shadeImagePath),
-    //   {
-    //   color: {
-    //     name: shadeImagePath.color.name,
-    //     clrCode: shadeImagePath.color.clrCode
-    //   },
-    //   sh
-    
+    const fullShadeUrls = req.shadeImage.map(shadeImagePath => imgFullPath(shadeImagePath));
     
     const imageURLs = Object.values(shadeImages).map((item, index) => ({
       color: {
@@ -55,30 +36,13 @@ exports.addProduct = async (req, res, next) => {
         clrCode: item.color.clrCode
       },
       shade: fullShadeUrls[index]
-    }));
+    }));    
 
-    // }));
-
-    // const firstItem = {
-    //   color: {
-    //     name: req.body.imgUrls.color.name,
-    //     clrCode: req.body.imgUrls.color.clrCode,
-    //   },
-    //   shade:  [imgFullPath(imagePath)],
-    // };
-
-    
-
-    console.log("imageUrls 46", imageURLs)
     const result = await productServices.createProductService({
       ...req.body,
       imageURLs: imageURLs,
       img: imgFullPath(req.file.path)
-
     });
-
-    console.log('product-result', result)
-
     res.status(200).json({
       success: true,
       status: "success",

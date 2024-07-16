@@ -1,12 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const upload = require("../middleware/uploadImage");
+
 // internal
 const categoryController = require('../controller/category.controller');
-
 // get
 router.get('/get/:id', categoryController.getSingleCategory);
 // add
-router.post('/add', categoryController.addCategory);
+// router.post('/add', categoryController.addCategory);
+router.post('/add',  upload("/catagory").single("img"),
+categoryController.addCategory);                
 // add All Category
 router.post('/add-all', categoryController.addAllCategory);
 // get all Category

@@ -4,11 +4,9 @@ const { ObjectId } = mongoose.Schema.Types;
 const CategorySchema = mongoose.Schema({
   img:{
     type:String,
-    required:false,
    },
    parent:{
     type:String,
-    required:true,
     trim:true,
     unique:true,
    },
@@ -16,7 +14,6 @@ const CategorySchema = mongoose.Schema({
    productType:{
     type:String,
     trim:true,
-    required:true,
     lowercase: true,
    },
    description:{

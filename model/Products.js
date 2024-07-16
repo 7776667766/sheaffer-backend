@@ -86,13 +86,13 @@ const productsSchema = mongoose.Schema({
   category: {
     name: {
       type: String,
-      // required: true,
+      required: true,
     },
-    // id: {
-    //   type: ObjectId,
-    //   ref: "Category",
-    //   required: true,
-    // }
+    id: {
+      type: ObjectId,
+      ref: "Category",
+      required: true,
+    }
   },
   status: {
     type: String,

@@ -9,22 +9,22 @@ exports.createProductService = async (data) => {
   data,
   );
 
-
-
-
-  // console.log('product f',product.imageURLs)
+  console.log('product f',product)
 
   const { _id: productId, brand, category } = product;
-  // console.log('product s  ',product)
+  console.log('product s',product._id)
   //update Brand
   await Brand.updateOne(
     { _id: brand.id },
     { $push: { products: productId } }
   );
   //Category Brand
+
+  console.log("peoductid 23",productId)
+
   await Category.updateOne(
     { _id: category.id },
-    { $push: { products: productId } }
+    { $push: { products: product._id } }
   );
   return product;
 };

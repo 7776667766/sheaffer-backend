@@ -1,10 +1,17 @@
 const categoryServices = require("../services/category.service");
 
+const imgFullPath = (imgPath) => {
+  if (!imgPath || imgPath === null) return "";
+  return "http://localhost:7000/" + imgPath;
+};
 
 // add category
 exports.addCategory = async (req,res,next) => {
   try {
-    const result = await categoryServices.createCategoryService(req.body);
+    const result = await categoryServices.createCategoryService({
+      ...req.body,
+      img: imgFullPath(req.file.path)
+    });
     res.status(200).json({
       status: "success",
       message: "Category created successfully!",
