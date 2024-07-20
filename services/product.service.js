@@ -142,33 +142,34 @@ exports.getRelatedProductService = async (productId) => {
 exports.updateProductService = async (id, currProduct) => {
   // console.log('currProduct',currProduct)
   const product = await Product.findById(id);
+  
   if (product) {
-    product.title = currProduct.title;
-    product.brand.name = currProduct.brand.name;
-    product.brand.id = currProduct.brand.id;
-    product.category.name = currProduct.category.name;
-    product.category.id = currProduct.category.id;
-    product.sku = currProduct.sku;
-    product.img = currProduct.img;
-    product.slug = currProduct.slug;
-    product.unit = currProduct.unit;
-    product.imageURLs = currProduct.imageURLs;
-    product.tags = currProduct.tags;
-    product.parent = currProduct.parent;
-    product.children = currProduct.children;
-    product.price = currProduct.price;
-    product.discount = currProduct.discount;
-    product.quantity = currProduct.quantity;
-    product.status = currProduct.status;
-    product.productType = currProduct.productType;
-    product.description = currProduct.description;
-    product.additionalInformation = currProduct.additionalInformation;
-    product.offerDate.startDate = currProduct.offerDate.startDate;
-    product.offerDate.endDate = currProduct.offerDate.endDate;
+    product.title = currProduct?.title;
+    // product.brand.name = currProduct?.brand?.name;
+    product.brand.id = currProduct?.brand?.id;
+    product.category.name = currProduct?.category?.name;
+    // product.category.id = currProduct?.category?.id;
+    product.sku = currProduct?.sku;
+    product.img = currProduct?.img;
+    product.slug = currProduct?.slug;
+    product.unit = currProduct?.unit;
+    product.imageURLs = currProduct?.imageURLs;
+    product.tags = currProduct?.tags;
+    product.parent = currProduct?.parent;
+    product.children = currProduct?.children;
+    product.price = currProduct?.price;
+    product.discount = currProduct?.discount;
+    product.quantity = currProduct?.quantity;
+    product.status = currProduct?.status;
+    product.productType = currProduct?.productType;
+    product.description = currProduct?.description;
+    product.additionalInformation = currProduct?.additionalInformation;
+    product.offerDate.startDate = currProduct?.offerDate?.startDate;
+    product.offerDate.endDate = currProduct?.offerDate?.endDate;
 
     await product.save();
   }
-
+console.log("done update",product)
   return product;
 };
 

@@ -41,7 +41,7 @@ exports.addProduct = async (req, res, next) => {
     const result = await productServices.createProductService({
       ...req.body,
       imageURLs: imageURLs,
-      img: imgFullPath(req.file.path)
+      img: imgFullPath(req?.file?.path)
     });
     res.status(200).json({
       success: true,
