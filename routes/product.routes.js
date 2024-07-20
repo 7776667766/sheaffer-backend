@@ -26,7 +26,9 @@ router.get("/single-product/:id", productController.getSingleProduct);
 // stock Product
 router.get("/stock-out", productController.stockOutProducts);
 // get Single Product
-router.patch("/edit-product/:id", productController.updateProduct);
+// router.patch("/edit-product/:id", productController.updateProduct);
+
+    
 // get Products ByType
 router.get('/:type', productController.getProductsByType);
 // get Products ByType 

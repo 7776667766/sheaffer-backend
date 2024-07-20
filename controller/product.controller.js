@@ -161,6 +161,7 @@ exports.getRelatedProducts = async (req, res, next) => {
 
 // update product
 exports.updateProduct = async (req, res, next) => {
+  // console.log()
   try {
     const product = await productServices.updateProductService(req.params.id, req.body)
     res.send({ data: product, message: "Product updated successfully!" });
