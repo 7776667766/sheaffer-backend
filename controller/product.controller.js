@@ -198,6 +198,7 @@ exports.stockOutProducts = async (req, res, next) => {
 
 // update product
 exports.deleteProduct = async (req, res, next) => {
+  console.log("201 id",req.params.id)
   try {
     await productServices.deleteProduct(req.params.id);
     res.status(200).json({
