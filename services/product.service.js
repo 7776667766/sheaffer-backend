@@ -139,9 +139,10 @@ exports.getRelatedProductService = async (productId) => {
 };
 
 // update a product
-exports.updateProductService = async (id, currProduct) => {
-  // console.log('currProduct',currProduct)
+exports.updateProductService = async (id, currProduct ,img) => {
+  console.log('currProduct',currProduct)
   const product = await Product.findById(id);
+  console.log("product 145",product)
   
   if (product) {
     product.title = currProduct?.title;
@@ -150,7 +151,7 @@ exports.updateProductService = async (id, currProduct) => {
     product.category.name = currProduct?.category?.name;
     // product.category.id = currProduct?.category?.id;
     product.sku = currProduct?.sku;
-    product.img = currProduct?.img;
+    product.img = img;
     product.slug = currProduct?.slug;
     product.unit = currProduct?.unit;
     product.imageURLs = currProduct?.imageURLs;

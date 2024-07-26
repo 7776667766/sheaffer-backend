@@ -161,9 +161,11 @@ exports.getRelatedProducts = async (req, res, next) => {
 
 // update product
 exports.updateProduct = async (req, res, next) => {
-  // console.log()
+  console.log("164",req.body)
   try {
-    const product = await productServices.updateProductService(req.params.id, req.body)
+   const img= imgFullPath(req?.file?.path)
+
+    const product = await productServices.updateProductService(req.params.id, req.body , img)
     res.send({ data: product, message: "Product updated successfully!" });
   } catch (error) {
     next(error)
