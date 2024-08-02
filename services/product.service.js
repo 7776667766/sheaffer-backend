@@ -94,7 +94,6 @@ exports.getPopularProductServiceByType = async (type) => {
   return products;
 };
 
-
 exports.getTopRatedProductService = async () => {
   const products = await Product.find({
     reviews: { $exists: true, $ne: [] },
@@ -173,8 +172,6 @@ exports.updateProductService = async (id, currProduct ,img) => {
 console.log("done update",product)
   return product;
 };
-
-
 
 // get Reviews Products
 exports.getReviewsProducts = async () => {
